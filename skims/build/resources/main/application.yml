@@ -1,7 +1,7 @@
 server:
-  port: 8083
+  port: 8082
   servlet:
-    contextPath: /skims
+    contextPath: /sa
   tomcat:
     accesslog:
        enabled: true
