@@ -38,24 +38,24 @@ Page<AudAdtLc>findByAdtYrAndAdtFlgcdAndAdtno(String adtYr, String adtFlgcd, Stri
 @IdClass(AudAdtLcPK.class)
 public class AudAdtLc {
     @Id //  String
-    @Column(name = "adt_yr", nullable = false)
+    @Column(name = "adt_yr", length = 4, nullable = false)
     private String adtYr; //--감사년도
 
     @Id //  String
-    @Column(name = "adt_flgcd", nullable = false)
+    @Column(name = "adt_flgcd", length = 10, nullable = false)
     private String adtFlgcd; //--감사구분코드
 
     @Id //  String
-    @Column(name = "adtno", nullable = false)
+    @Column(name = "adtno", length = 4, nullable = false)
     private String adtno; //--감사번호
 
-    @Column(name = "adt_knd_flgcd", nullable = true)
+    @Column(name = "adt_knd_flgcd", length = 10, nullable = true)
     private String adtKndFlgcd; //--감사종류구분코드
 
-    @Column(name = "adt_ty_flgcd", nullable = true)
+    @Column(name = "adt_ty_flgcd", length = 10, nullable = true)
     private String adtTyFlgcd; //--감사형태구분코드
 
-    @Column(name = "adtnm", nullable = true)
+    @Column(name = "adtnm", length = 100, nullable = true)
     private String adtnm; //--감사명
 
     @Column(name = "adt_xec_strdt", nullable = true)
@@ -70,16 +70,16 @@ public class AudAdtLc {
     @Column(name = "adt_bj_nddt", nullable = true)
     private Date adtBjNddt; //--감사대상종료일자
 
-    @Column(name = "file_key", nullable = true)
+    @Column(name = "file_key", precision = 20, scale = 0, nullable = true)
     private BigDecimal fileKey; //--파일key
 
-    @Column(name = "inp_usr_id", nullable = false)
+    @Column(name = "inp_usr_id", length = 50, nullable = false)
     private String inpUsrId; //--입력사용자id
 
     @Column(name = "inp_dthms", nullable = false)
     private Date inpDthms; //--입력일시
 
-    @Column(name = "mdf_usr_id", nullable = false)
+    @Column(name = "mdf_usr_id", length = 50, nullable = false)
     private String mdfUsrId; //--수정사용자id
 
     @Column(name = "mdf_dthms", nullable = false)

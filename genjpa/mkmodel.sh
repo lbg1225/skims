@@ -22,6 +22,7 @@ Time="F"
 Timestamp="F"
 Clob="F"
 Blob="F"
+IDENTITY="F"
 
 BigDecimalPK="F"
 DatePK="F"
@@ -59,6 +60,7 @@ InitParam()
     TimestampPK="F"
     ClobPK="F"
     BlobPK="F"
+	IDENTITY="F"
 
 	Builder=""
 	FirstCol=""
@@ -178,7 +180,7 @@ TableProc()
 }
 
 #--------------------------------------------------------------
-# GetColName : 
+# GetColName : SnakeCase Column Name을 CamelCase로 변경
 #--------------------------------------------------------------
 GetColName()
 {
@@ -187,7 +189,7 @@ GetColName()
 }
 
 #--------------------------------------------------------------
-# BaseClass : Generate base class
+# AddIdClass : Generate IdClass
 #--------------------------------------------------------------
 AddIdClass()
 {
@@ -197,6 +199,7 @@ AddIdClass()
 	ClassAddLine '  ------------------------------------------*/'
     ClassAddLine "@IdClass($ClassName"'PK.class)'
 }
+
 
 #--------------------------------------------------------------
 # BaseClass : Generate base class
@@ -223,11 +226,14 @@ BaseClass()
     ClassAddLine 'import javax.persistence.PostUpdate;'
     ClassAddLine 'import javax.persistence.PreRemove;'
     ClassAddLine 'import javax.persistence.PostRemove;'
-    ClassAddLine 'import javax.validation.constraints.Size;'
-	if [ $PrimaryCnt -gt 1 ]; then	ClassAddLine 'import javax.persistence.IdClass;' ; fi
+    if [ $IDENTITY == "T" ]
+    then 
+	    ClassAddLine 'import javax.persistence.GeneratedValue;' ; 
+	    ClassAddLine 'import javax.persistence.GenerationType;' ; 
+	fi
+	if [ $PrimaryCnt -gt 1 ]; then ClassAddLine 'import javax.persistence.IdClass;' ; fi
     ClassAddLine '// import org.springframework.beans.BeanUtils;'
     # ClassAddLine 'import lombok.Data;'
-    ClassAddLine 'import lombok.AccessLevel;'
     ClassAddLine 'import lombok.Getter;'
     ClassAddLine 'import lombok.NoArgsConstructor;'
     ClassAddLine 'import lombok.EqualsAndHashCode;'
@@ -256,6 +262,7 @@ BaseClassPK()
     if [ $TimestampPK == "T" ]  ; then ClassAddLinePK 'import java.sql.Timestamp;'  ; fi
 	if [ $ClobPK == "T" ]       ; then ClassAddLinePK 'import java.sql.Clob;'       ; fi
 	if [ $BlobPK == "T" ]       ; then ClassAddLinePK 'import java.sql.Blob;'       ; fi
+	ClassAddLinePK 'import javax.persistence.Column;'
 	ClassAddLinePK 'import java.io.Serializable;'
 	ClassAddLinePK 'import lombok.Data;  //-- include @Getter, @Setter, @RequiredArgsConstructor, @ToString, @EqualsAndHashCode'
     ClassAddLinePK 'import lombok.NoArgsConstructor;'
@@ -327,27 +334,27 @@ GetDataType()
 {
     Result="";
 	
-    case $* in
-	   *tinyint*)   Result='Byte'                        ;;
-	   *smallint*)  Result='Byte'                        ;;
-	   *tinyint*)   Result='Byte'                        ;; 
-	   *smallint*)  Result='Short'                       ;;
-	   *bigint*)    Result='Long'                        ;;
-	   *int*)       Result='Integer'                     ;;
-	   *decimal*)   Result='BigDecimal' ; BigDecimal="T" ;;
-	   *float*)     Result='Float'                       ;;
-	   *double*)    Result='Double'                      ;;
-	   *bit*)       Result='Boolean'                     ;;
-	   *date*)      Result='Date'       ; Date="T"       ;;
-	   *datetime*)  Result='Timestamp'  ; Timestamp="T"  ;;
-	   *time*)      Result='Time'       ; Time="T"       ;;
-	   *nvarchar*)  Result='String'                      ;;
-	   *varchar*)   Result='String'                      ;;
-	   *char*)      Result='String'                      ;;
-	   *longtext*)  Result='Clob'       ; Clob="T"       ;;
-	   *tinyblob*)  Result='Byte[]'                      ;;
-	   *longblob*)  Result='Blob'       ; Blob="T"       ;;
-	   *identity*)  Result="Long"                        ;;   # // H2 DB
+    case $2 in
+	   tinyint*)   Result='Byte'                        ;;
+	   smallint*)  Result='Byte'                        ;;
+	   tinyint*)   Result='Byte'                        ;; 
+	   smallint*)  Result='Short'                       ;;
+	   bigint*)    Result='Long'                        ;;
+	   int*)       Result='Integer'                     ;;
+	   decimal*)   Result='BigDecimal' ; BigDecimal="T" ;;
+	   float*)     Result='Float'                       ;;
+	   double*)    Result='Double'                      ;;
+	   bit*)       Result='Boolean'                     ;;
+	   date*)      Result='Date'       ; Date="T"       ;;
+	   datetime*)  Result='Timestamp'  ; Timestamp="T"  ;;
+	   time*)      Result='Time'       ; Time="T"       ;;
+	   nvarchar*)  Result='String'                      ;;
+	   varchar*)   Result='String'                      ;;
+	   char*)      Result='String'                      ;;
+	   longtext*)  Result='Clob'       ; Clob="T"       ;;
+	   tinyblob*)  Result='Byte[]'                      ;;
+	   longblob*)  Result='Blob'       ; Blob="T"       ;;
+	   identity*)  Result="Long"                        ;;   # // H2 DB
 	esac
 }
 
@@ -356,6 +363,7 @@ GetDataType()
 #--------------------------------------------------------------
 SetDataTypePK()
 {
+
     case $* in
 	   BigDecimal) BigDecimalPK="T" ;;
 	   Date)       DatePK="T"       ;;
@@ -386,7 +394,7 @@ IsIdentity()
     Result="F";
 	
 	case $* in
-	   *auto_increment*|*identity*) Result='T'     ;;
+	   *auto_increment*|*identity*) Result='T' ; IDENTITY='T' ;;
     esac
 }
 
@@ -399,6 +407,21 @@ IsPrimary()
 	
     case $* in
 	   *primary?key*)      Result='T'     ;;
+    esac
+}
+
+#--------------------------------------------------------------
+# GetColSize : Column의 size정보을 추출
+#--------------------------------------------------------------
+GetColSize()
+{
+	Result='F'
+    case $1 in
+	*int*) ;;    #-- Mysql Bigint(20)
+	*\(*\)*) 
+	    data=(`echo $1 | sed 's/(/ /g' | sed 's/)//g'`);
+		Result=${data[1]};
+		;;
     esac
 }
 
@@ -437,10 +460,14 @@ ColumnProc()
 	#-- 7. Comment
 	GetComment $param
 	comment=$Result
-	
+
+	#-- 7. Comment
+	GetColSize $2
+	colsize=$Result
+
 	if [ "$javatype" != "" ]
 	then
-	    echo $orgcol $col $javatype $nullable $identity $primary $comment >> $ColTmp
+	    echo $orgcol $col $javatype $nullable $identity $primary $comment $colsize >> $ColTmp
 	fi
 }
 
@@ -470,6 +497,7 @@ GenFileTmp()
 	identity=$5 
 	primary=$6
 	comment=$7
+	colsize=$8
 	
 	IdCol=`echo " $PrimaryKeys " | grep " $orgcol " | wc -l`
 	
@@ -490,16 +518,29 @@ GenFileTmp()
 	    Builder=`echo $Builder, $javatype $col`
 	    echo "        this.$col = $col;" >> $BuilderTmp
     fi 
-	# ------ Builder
 	
-	echo "    @Column(name = \"$orgcol\", nullable = $nullable)" >> $FileTmp 
+	if [ $colsize == "F" ]
+	then
+	    columndt="@Column(name = \"$orgcol\", nullable = $nullable)"
+	    echo "    $columndt" >> $FileTmp 
+	elif [ $javatype == "BigDecimal" ]
+	then
+	    tmpdt=(`echo $colsize | sed 's/,/ /g'`)
+	    columndt="@Column(name = \"$orgcol\", precision = ${tmpdt[0]}, scale = ${tmpdt[1]}, nullable = $nullable)"
+	    echo "    $columndt" >> $FileTmp 
+	else
+	    columndt="@Column(name = \"$orgcol\", length = $colsize, nullable = $nullable)"
+	    echo "    $columndt" >> $FileTmp 
+	fi
+	
 	echo "    private $javatype $col; $comment" >> $FileTmp
 	echo "" >> $FileTmp
 	
 	if [ $PrimaryCnt -gt 1 ] && [ $IdCol -gt 0 ]
 	then
 	    GenFindPk $javatype $col
-	    echo "    @Column(name = \"$orgcol\")" >> $FileTmpPK
+		SetDataTypePK $javatype
+	    echo "    $columndt" >> $FileTmpPK
 	    echo "    private $javatype $col; $comment" >> $FileTmpPK
 		echo "" >> $FileTmpPK
 	fi

@@ -38,54 +38,54 @@ Page<AudAdtKnwlAdm>findByAdtKnwlBsnsFlgcdAndAdtKnwlMdccdAndSeqno(String adtKnwlB
 @IdClass(AudAdtKnwlAdmPK.class)
 public class AudAdtKnwlAdm {
     @Id //  String
-    @Column(name = "adt_knwl_bsns_flgcd", nullable = false)
+    @Column(name = "adt_knwl_bsns_flgcd", length = 10, nullable = false)
     private String adtKnwlBsnsFlgcd; //--감사지식업무구분코드
 
     @Id //  String
-    @Column(name = "adt_knwl_mdccd", nullable = false)
+    @Column(name = "adt_knwl_mdccd", length = 10, nullable = false)
     private String adtKnwlMdccd; //--감사지식중분류코드
 
     @Id //  BigDecimal
-    @Column(name = "seqno", nullable = false)
+    @Column(name = "seqno", precision = 5, scale = 0, nullable = false)
     private BigDecimal seqno; //--순번
 
-    @Column(name = "itnm", nullable = true)
+    @Column(name = "itnm", length = 100, nullable = true)
     private String itnm; //--항목명
 
-    @Column(name = "dtit_chek_nm", nullable = true)
+    @Column(name = "dtit_chek_nm", length = 200, nullable = true)
     private String dtitChekNm; //--세부항목체크명
 
     @Column(name = "rgtdt", nullable = true)
     private Date rgtdt; //--등록일자
 
-    @Column(name = "rgt_stfno", nullable = true)
+    @Column(name = "rgt_stfno", length = 50, nullable = true)
     private String rgtStfno; //--등록직원번호
 
     @Column(name = "clodt", nullable = true)
     private Date clodt; //--폐쇄일자
 
-    @Column(name = "wrt_dep_chek_vl", nullable = true)
+    @Column(name = "wrt_dep_chek_vl", length = 10, nullable = true)
     private String wrtDepChekVl; //--작성부서체크값
 
-    @Column(name = "adx_1_file_pth", nullable = true)
+    @Column(name = "adx_1_file_pth", length = 200, nullable = true)
     private String adx1FilePth; //--첨부1파일경로
 
-    @Column(name = "adx_2_file_pth", nullable = true)
+    @Column(name = "adx_2_file_pth", length = 200, nullable = true)
     private String adx2FilePth; //--첨부2파일경로
 
-    @Column(name = "adx_3_file_pth", nullable = true)
+    @Column(name = "adx_3_file_pth", length = 200, nullable = true)
     private String adx3FilePth; //--첨부3파일경로
 
-    @Column(name = "adx_4_file_pth", nullable = true)
+    @Column(name = "adx_4_file_pth", length = 200, nullable = true)
     private String adx4FilePth; //--첨부4파일경로
 
-    @Column(name = "inp_usr_id", nullable = false)
+    @Column(name = "inp_usr_id", length = 50, nullable = false)
     private String inpUsrId; //--입력사용자id
 
     @Column(name = "inp_dthms", nullable = false)
     private Date inpDthms; //--입력일시
 
-    @Column(name = "mdf_usr_id", nullable = false)
+    @Column(name = "mdf_usr_id", length = 50, nullable = false)
     private String mdfUsrId; //--수정사용자id
 
     @Column(name = "mdf_dthms", nullable = false)

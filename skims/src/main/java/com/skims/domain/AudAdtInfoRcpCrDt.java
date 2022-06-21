@@ -8,8 +8,6 @@ package com.skims.domain;
 import java.math.BigDecimal;
 import java.sql.Date;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.Column;
@@ -20,6 +18,8 @@ import javax.persistence.PreUpdate;
 import javax.persistence.PostUpdate;
 import javax.persistence.PreRemove;
 import javax.persistence.PostRemove;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 // import org.springframework.beans.BeanUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,25 +42,25 @@ public class AudAdtInfoRcpCrDt {
     @Column(name = "rcpdt", nullable = false)
     private Date rcpdt; //--접수일자
 
-    @Column(name = "rcp_hhmm", nullable = false)
+    @Column(name = "rcp_hhmm", length = 4, nullable = false)
     private String rcpHhmm; //--접수시분
 
-    @Column(name = "rcp_seqno", nullable = false)
+    @Column(name = "rcp_seqno", precision = 5, scale = 0, nullable = false)
     private BigDecimal rcpSeqno; //--접수순번
 
-    @Column(name = "adt_bsns_dsccd", nullable = true)
+    @Column(name = "adt_bsns_dsccd", length = 10, nullable = true)
     private String adtBsnsDsccd; //--감사업무식별코드
 
-    @Column(name = "cr_dt_cn", nullable = true)
+    @Column(name = "cr_dt_cn", length = 4000, nullable = true)
     private String crDtCn; //--발생상세내용
 
-    @Column(name = "inp_usr_id", nullable = false)
+    @Column(name = "inp_usr_id", length = 50, nullable = false)
     private String inpUsrId; //--입력사용자id
 
     @Column(name = "inp_dthms", nullable = false)
     private Date inpDthms; //--입력일시
 
-    @Column(name = "mdf_usr_id", nullable = false)
+    @Column(name = "mdf_usr_id", length = 50, nullable = false)
     private String mdfUsrId; //--수정사용자id
 
     @Column(name = "mdf_dthms", nullable = false)

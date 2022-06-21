@@ -42,86 +42,86 @@ public class AudAdtInfoRcp {
     private Date rcpdt; //--접수일자
 
     @Id //  String
-    @Column(name = "rcp_hhmm", nullable = false)
+    @Column(name = "rcp_hhmm", length = 4, nullable = false)
     private String rcpHhmm; //--접수시분
 
     @Id //  BigDecimal
-    @Column(name = "rcp_seqno", nullable = false)
+    @Column(name = "rcp_seqno", precision = 5, scale = 0, nullable = false)
     private BigDecimal rcpSeqno; //--접수순번
 
-    @Column(name = "adt_bsns_dsccd", nullable = true)
+    @Column(name = "adt_bsns_dsccd", length = 10, nullable = true)
     private String adtBsnsDsccd; //--감사업무식별코드
 
-    @Column(name = "adt_stfno", nullable = true)
+    @Column(name = "adt_stfno", length = 50, nullable = true)
     private String adtStfno; //--감사직원번호
 
-    @Column(name = "plyno", nullable = true)
+    @Column(name = "plyno", length = 16, nullable = true)
     private String plyno; //--증권번호
 
-    @Column(name = "ctm_rsno", nullable = true)
+    @Column(name = "ctm_rsno", length = 48, nullable = true)
     private String ctmRsno; //--고객주민번호
 
-    @Column(name = "dh_stfno", nullable = true)
+    @Column(name = "dh_stfno", length = 50, nullable = true)
     private String dhStfno; //--취급직원번호
 
-    @Column(name = "bjamt", nullable = true)
+    @Column(name = "bjamt", precision = 15, scale = 0, nullable = true)
     private BigDecimal bjamt; //--대상금액
 
-    @Column(name = "impdg_poct", nullable = true)
+    @Column(name = "impdg_poct", precision = 10, scale = 0, nullable = true)
     private BigDecimal impdgPoct; //--중요도점수
 
-    @Column(name = "adt_rcp_link_flgcd", nullable = true)
+    @Column(name = "adt_rcp_link_flgcd", length = 10, nullable = true)
     private String adtRcpLinkFlgcd; //--감사접수연결구분코드
 
-    @Column(name = "link_kyvl", nullable = true)
+    @Column(name = "link_kyvl", length = 100, nullable = true)
     private String linkKyvl; //--연결키값
 
-    @Column(name = "cr_stfno", nullable = true)
+    @Column(name = "cr_stfno", length = 50, nullable = true)
     private String crStfno; //--발생직원번호
 
-    @Column(name = "cr_spc", nullable = true)
+    @Column(name = "cr_spc", length = 500, nullable = true)
     private String crSpc; //--발생내역
 
-    @Column(name = "sms_snd_yn", nullable = true)
+    @Column(name = "sms_snd_yn", length = 1, nullable = true)
     private String smsSndYn; //--sms발송여부
 
-    @Column(name = "adt_info_dlst_flgcd", nullable = true)
+    @Column(name = "adt_info_dlst_flgcd", length = 10, nullable = true)
     private String adtInfoDlstFlgcd; //--감사정보처리상태구분코드
 
-    @Column(name = "dl_cn", nullable = true)
+    @Column(name = "dl_cn", length = 2000, nullable = true)
     private String dlCn; //--처리내용
 
     @Column(name = "dldt", nullable = true)
     private Date dldt; //--처리일자
 
-    @Column(name = "dl_hhmm", nullable = true)
+    @Column(name = "dl_hhmm", length = 4, nullable = true)
     private String dlHhmm; //--처리시분
 
-    @Column(name = "bsns_1_chr_stfno", nullable = true)
+    @Column(name = "bsns_1_chr_stfno", length = 50, nullable = true)
     private String bsns1ChrStfno; //--업무1담당직원번호
 
-    @Column(name = "bsns_2_chr_stfno", nullable = true)
+    @Column(name = "bsns_2_chr_stfno", length = 50, nullable = true)
     private String bsns2ChrStfno; //--업무2담당직원번호
 
-    @Column(name = "bsns_3_chr_stfno", nullable = true)
+    @Column(name = "bsns_3_chr_stfno", length = 50, nullable = true)
     private String bsns3ChrStfno; //--업무3담당직원번호
 
-    @Column(name = "bsns_4_chr_stfno", nullable = true)
+    @Column(name = "bsns_4_chr_stfno", length = 50, nullable = true)
     private String bsns4ChrStfno; //--업무4담당직원번호
 
-    @Column(name = "wst_yn", nullable = true)
+    @Column(name = "wst_yn", length = 1, nullable = true)
     private String wstYn; //--폐기여부
 
-    @Column(name = "adt_info_pout_mtt_flgcd", nullable = true)
+    @Column(name = "adt_info_pout_mtt_flgcd", length = 10, nullable = true)
     private String adtInfoPoutMttFlgcd; //--감사정보특이사항구분코드
 
-    @Column(name = "inp_usr_id", nullable = false)
+    @Column(name = "inp_usr_id", length = 50, nullable = false)
     private String inpUsrId; //--입력사용자id
 
     @Column(name = "inp_dthms", nullable = false)
     private Date inpDthms; //--입력일시
 
-    @Column(name = "mdf_usr_id", nullable = false)
+    @Column(name = "mdf_usr_id", length = 50, nullable = false)
     private String mdfUsrId; //--수정사용자id
 
     @Column(name = "mdf_dthms", nullable = false)

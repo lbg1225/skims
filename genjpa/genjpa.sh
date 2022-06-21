@@ -120,29 +120,44 @@ setIdType()
 #--------------------------------------------------------------
 generationRepository() 
 {
-   generationJavaDoc $Repository R
-   
-   echo "package $Package.repository;" | tee -a $Repository
-   echo "" | tee -a $Repository
-   echo "import org.springframework.data.repository.PagingAndSortingRepository;" | tee -a $Repository
-   echo "import org.springframework.data.rest.core.annotation.RepositoryRestResource;" | tee -a $Repository
-   echo "import $Package.domain.$Class"';' | tee -a $Repository
-   if [ "$findfunc" != "" ]; then echo "import $Package.domain.$IdType"';' | tee -a $Repository ; fi
-   echo "" | tee -a $Repository
-   
-   Tolower $Class
-   tmp="$Result"s
-   
-   echo "@RepositoryRestResource(collectionResourceRel=\"$tmp\", path=\"$tmp\")" | tee -a $Repository
-   echo 'public interface '$Class'Repository extends PagingAndSortingRepository<'$Class", $IdType>{"  | tee -a $Repository
-   
-   if [ "$findfunc" != "" ]
-   then  
-       echo "    @RestResource" | tee -a $Repository
-	   echo "    $findfunc" | tee -a $Repository
-   fi
-   
-   echo  "}" | tee -a $Repository
+    generationJavaDoc $Repository R
+    
+    echo "package $Package.repository;" | tee -a $Repository
+    echo "" | tee -a $Repository
+    echo "import org.springframework.data.repository.PagingAndSortingRepository;" | tee -a $Repository
+    echo "import org.springframework.data.rest.core.annotation.RepositoryRestResource;" | tee -a $Repository
+    
+    if [ "$findfunc" != "" ]
+    then 
+        echo "import org.springframework.data.rest.core.annotation.RestResource;" | tee -a $Repository;
+        echo "import org.springframework.data.domain.Page;" | tee -a $Repository ; 
+        echo "import org.springframework.data.domain.Pageable;" | tee -a $Repository ; 
+    fi
+
+    if [ `echo $findfunc | grep "BigDecimal " | wc -l` -gt 0 ]; then echo "import java.math.BigDecimal;" | tee -a $Repository; fi 
+    if [ `echo $findfunc | grep "Date " | wc -l` -gt 0 ]; then echo "import java.sql.Date;" | tee -a $Repository; fi
+    if [ `echo $findfunc | grep "Time " | wc -l` -gt 0 ]; then echo "import java.sql.Time;" | tee -a $Repository; fi 
+    if [ `echo $findfunc | grep "Timestamp " | wc -l` -gt 0 ]; then echo "import java.sql.Timestamp;" | tee -a $Repository; fi 
+    if [ `echo $findfunc | grep "Clob " | wc -l` -gt 0 ]; then echo "import java.sql.Clob;" | tee -a $Repository; fi 
+    if [ `echo $findfunc | grep "Blob " | wc -l` -gt 0 ]; then echo "import java.sql.Blob;" | tee -a $Repository; fi 
+
+    echo "import $Package.domain.$Class"';' | tee -a $Repository
+    if [ "$findfunc" != "" ]; then echo "import $Package.domain.$IdType"';' | tee -a $Repository ; fi
+    echo "" | tee -a $Repository
+    
+    Tolower $Class
+    tmp="$Result"s
+    
+    echo "@RepositoryRestResource(collectionResourceRel=\"$tmp\", path=\"$tmp\")" | tee -a $Repository
+    echo 'public interface '$Class'Repository extends PagingAndSortingRepository<'$Class", $IdType>{"  | tee -a $Repository
+    
+    if [ "$findfunc" != "" ]
+    then  
+        echo "    @RestResource" | tee -a $Repository
+	    echo "    $findfunc" | tee -a $Repository
+    fi
+    
+    echo  "}" | tee -a $Repository
 }
 
 #--------------------------------------------------------------
