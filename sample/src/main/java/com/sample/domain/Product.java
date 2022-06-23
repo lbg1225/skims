@@ -2,7 +2,7 @@ package com.sample.domain;
 import java.math.BigDecimal;
 import java.io.Serializable;
 import javax.persistence.*;
-// import org.springframework.beans.BeanUtils;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
