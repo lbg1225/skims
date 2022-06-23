@@ -17,6 +17,7 @@ public interface CommonCodeDetailRepository extends JpaRepository<CommonCodeDeta
     @RestResource
     Page<CommonCodeDetail>findByCode(String code, Pageable pageable);
     Page<CommonCodeDetail>findByCodeAndGroupCode(String code, String groupCode, Pageable pageable);
-    @Query("select a from CommonCodeDetail a inner join CommonCode b on a.GroupCode = b.GroupCode")
-    List<Object[]>findByData();
+    @RestResource(exported = false)
+    @Query(value = "select a.*, b.Group_Name from Common_Code_Detail a inner join Common_Code b on a.Group_Code = b.Group_Code", nativeQuery = true)
+    List<Object []>findByData();
 }
