@@ -11,6 +11,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import com.sample.domain.CommonCodeDetail;
 import com.sample.domain.CommonCodeDetailPK;
+import com.sample.dto.ListCommonCodeDetailDto;
 
 @RepositoryRestResource(collectionResourceRel = "commoncodedetails", path = "commoncodedetails")
 public interface CommonCodeDetailRepository extends JpaRepository<CommonCodeDetail, CommonCodeDetailPK>{ //Entity 클래스, PK 타입

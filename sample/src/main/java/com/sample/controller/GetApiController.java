@@ -107,6 +107,7 @@ public class GetApiController {
     // Query parameter에서 사용하는 key값들을 미리 알고 지정할 수 있다.
      ----------------------------------------------------------------------------------------------------------------------------*/
   // http://localhost:8080/api/get/query-param02?name=lbg&email=lbg@email.com&age=18
+  @GetMapping(path = "query-param02")
   public String queryParam02(
     @RequestParam String name,
     @RequestParam String email,
