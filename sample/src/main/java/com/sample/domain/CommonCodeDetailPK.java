@@ -14,6 +14,7 @@ import javax.persistence.Embeddable;
 
 import lombok.Builder;
 
+@Setter
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode // 필수

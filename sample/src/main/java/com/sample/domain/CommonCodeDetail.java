@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 
 
@@ -18,6 +19,7 @@ import lombok.Setter;
 @EqualsAndHashCode // 필수
 @NoArgsConstructor
 @IdClass(CommonCodeDetailPK.class)
+@ToString
 public class CommonCodeDetail {
     @Id
     @Column(name = "CODE" )
